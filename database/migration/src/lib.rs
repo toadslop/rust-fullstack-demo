@@ -1,6 +1,7 @@
 pub use sea_orm_migration::prelude::*;
 mod m20221106_103001_create_beer_table;
 mod m20221106_104329_create_review_table;
+mod m20221106_115011_db_seeder;
 
 pub use sea_orm_migration;
 pub struct Migrator;
@@ -11,6 +12,7 @@ impl MigratorTrait for Migrator {
         vec![
             Box::new(m20221106_103001_create_beer_table::Migration),
             Box::new(m20221106_104329_create_review_table::Migration),
+            Box::new(m20221106_115011_db_seeder::Migration),
         ]
     }
 }

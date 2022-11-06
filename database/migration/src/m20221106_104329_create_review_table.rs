@@ -45,9 +45,9 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(Review::ReviewerName).string().not_null())
                     .col(ColumnDef::new(Review::ReviewText).string().not_null())
-                    .col(ColumnDef::new(Review::Rating).integer())
+                    .col(ColumnDef::new(Review::Rating).integer().not_null())
                     .col(ColumnDef::new(Review::Date).timestamp())
-                    .col(ColumnDef::new(Review::BeerId).integer())
+                    .col(ColumnDef::new(Review::BeerId).integer().not_null())
                     .foreign_key(
                         ForeignKey::create()
                             .name("fk_beer")

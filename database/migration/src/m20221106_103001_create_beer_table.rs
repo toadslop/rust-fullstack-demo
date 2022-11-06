@@ -24,7 +24,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Beer::BreweryLocation).string().not_null())
                     .col(
                         ColumnDef::new(Beer::AlcoholContent)
-                            .decimal_len(4, 2)
+                            .decimal_len(3, 1)
                             .not_null(),
                     )
                     .col(
