@@ -2,6 +2,7 @@ import * as path from "path";
 import { fileURLToPath } from "url";
 import WasmPackPlugin from "@wasm-tool/wasm-pack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import Dotenv from "dotenv-webpack";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,6 +34,7 @@ export default (_env, argv) => {
       ],
     },
     plugins: [
+      new Dotenv(),
       new CopyWebpackPlugin({
         patterns: [{ from: "./static", to: distPath }],
       }),

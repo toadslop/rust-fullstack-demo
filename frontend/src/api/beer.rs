@@ -1,7 +1,9 @@
 use reqwasm::http::Request;
 
+use super::get_api_url;
+
 pub async fn get_beers() -> String {
-    let url = "http://localhost:8080/";
+    let url = get_api_url("");
 
     Request::get(&url)
         .send()

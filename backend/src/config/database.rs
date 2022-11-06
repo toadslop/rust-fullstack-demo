@@ -5,10 +5,12 @@ use database::{
 };
 use std::time::Duration;
 
+use super::env_keys::DATABASE_URL;
+
 pub async fn get_db_config() -> Result<DatabaseConnection, DbErr> {
-    let mut opt = ConnectOptions::new(
-        "postgres://ratebeer_app:password@localhost:5432/ratebeer_clone".to_owned(),
-    );
+    let db_url = std::env::var(DATABASE_URL).expect("the database url to be set.");
+    let mut opt = ConnectOptions::new(db_url.to_owned());
+
     opt.max_connections(100)
         .min_connections(5)
         .connect_timeout(Duration::from_secs(8))
