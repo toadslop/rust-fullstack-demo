@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 sea-orm = { version = "0.10.1", features = ["sqlx-postgres", "runtime-actix-rustls", "macros"]}
+migration = { path = "./migration"}

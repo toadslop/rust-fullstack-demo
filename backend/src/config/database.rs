@@ -1,6 +1,9 @@
+use database::{
+    migration::Migrator,
+    sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
+    MigratorTrait,
+};
 use std::time::Duration;
-
-use database::sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
 
 pub async fn get_db_config() -> Result<DatabaseConnection, DbErr> {
     let mut opt = ConnectOptions::new(
@@ -13,10 +16,9 @@ pub async fn get_db_config() -> Result<DatabaseConnection, DbErr> {
         .idle_timeout(Duration::from_secs(8))
         .max_lifetime(Duration::from_secs(8))
         .sqlx_logging(true)
-        .sqlx_logging_level(log::LevelFilter::Info)
-        .set_schema_search_path("my_schema".into()); // Setting default PostgreSQL schema
+        .sqlx_logging_level(log::LevelFilter::Info);
 
     let db = Database::connect(opt).await?;
-
+    Migrator::up(&db, None).await.unwrap();
     Ok(db)
 }
