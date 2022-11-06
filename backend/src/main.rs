@@ -1,12 +1,19 @@
-use actix_web::{get, web::Data, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web::Data, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use config::{app_state::AppState, cors::get_cors_config, database::get_db_config};
+use database::BeerQueries;
 use std::io::Error;
 
 mod config;
 
 #[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().json("Hello world!")
+async fn hello(_req: HttpRequest, data: Data<AppState>) -> impl Responder {
+    let db = &data.db;
+    let beers = BeerQueries::find_all(db).await;
+
+    match beers {
+        Ok(beers) => HttpResponse::Ok().json(beers),
+        Err(_) => HttpResponse::NotFound().finish(),
+    }
 }
 
 #[actix_web::main]

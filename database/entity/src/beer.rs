@@ -4,8 +4,9 @@ use sea_orm::{
     prelude::Decimal, ActiveModelBehavior, DeriveEntityModel, DerivePrimaryKey, DeriveRelation,
     EntityTrait, EnumIter, IdenStatic, PrimaryKeyTrait, Related, RelationDef, RelationTrait,
 };
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
+#[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Serialize, Deserialize)]
 #[sea_orm(table_name = "beer")]
 pub struct Model {
     #[sea_orm(primary_key)]
