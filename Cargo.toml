@@ -1,5 +1,5 @@
 [workspace]
-members = ["backend", "frontend", "domain"]
+members = ["backend", "frontend", "database", "database/migration"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
