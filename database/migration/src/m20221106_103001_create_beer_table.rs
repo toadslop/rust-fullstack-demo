@@ -33,6 +33,7 @@ impl MigrationTrait for Migration {
                             .not_null(),
                     )
                     .col(ColumnDef::new(Beer::ImageUrl).string().not_null())
+                    .col(ColumnDef::new(Beer::Style).string().not_null())
                     .to_owned(),
             )
             .await
@@ -56,4 +57,5 @@ pub enum Beer {
     AverageRating,
     Description,
     ImageUrl,
+    Style,
 }
