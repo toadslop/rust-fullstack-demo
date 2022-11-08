@@ -1,12 +1,12 @@
-use super::env_keys::{DEFAULT_FRONTEND_URL, FRONTEND_URL};
 use actix_cors::Cors;
 use actix_web::http;
+use shared::{DEFAULT_FRONTEND_URL, FRONTEND_URL_KEY};
 
 pub fn get_cors_config() -> Cors {
-    let frontend_url = &std::env::var(FRONTEND_URL).unwrap_or_else(|_| {
+    let frontend_url = &std::env::var(FRONTEND_URL_KEY).unwrap_or_else(|_| {
         log::info!(
             "Environment variable {} not found. Using default: {}",
-            FRONTEND_URL,
+            FRONTEND_URL_KEY,
             DEFAULT_FRONTEND_URL
         );
 
