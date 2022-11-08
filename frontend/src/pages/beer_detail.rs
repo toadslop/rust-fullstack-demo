@@ -1,20 +1,16 @@
-use crate::api::beer::get_beers;
-use entity::beer::Model as Beer;
-use yew::{function_component, html, use_effect_with_deps, use_state, Html, Properties};
+use yew::{function_component, html, virtual_dom::AttrValue, Properties};
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Eq)]
 pub struct Props {
-    pub beer: Beer,
+    pub beer_id: AttrValue,
 }
 
-#[function_component(BeerList)]
-pub fn beer_list(props: &Props) -> Html {
-    #[allow(clippy::redundant_closure)]
-
+#[function_component(BeerDetail)]
+pub fn beer_detail(props: &Props) -> Html {
     html! {
         <div class="mt-4 w-75 mx-auto">
           <div class="d-flex flex-column">
-            <h1>{ &props.beer.name }</h1>
+            <h1>{ &props.beer_id }</h1>
 
           </div>
         </div>

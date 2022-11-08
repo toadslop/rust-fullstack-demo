@@ -8,7 +8,8 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 mod api;
 mod components;
-mod pages;
+pub mod pages;
+mod routes;
 
 #[wasm_bindgen]
 pub fn main() {
