@@ -1,7 +1,7 @@
-use load_dotenv::load_dotenv;
-use pages::beer_list::BeerList;
+use routes::{switch, Route};
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew::{function_component, html};
+use yew_router::{BrowserRouter, Switch};
 
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -13,8 +13,6 @@ mod routes;
 
 #[wasm_bindgen]
 pub fn main() {
-    load_dotenv!();
-
     yew::start_app::<RateBeer>();
 }
 
@@ -24,7 +22,9 @@ pub fn rate_beer() -> Html {
         <div class="container mt-5">
           <h1>{ "Rate Beer" }</h1>
           <div>
-            <BeerList />
+            <BrowserRouter>
+              <Switch<Route> render={Switch::render(switch)} />
+            </BrowserRouter>
           </div>
         </div>
     }

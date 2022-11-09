@@ -14,9 +14,11 @@ export default (_env, argv) => {
       static: distPath,
       compress: argv.mode === "production",
       port: 8000,
+      historyApiFallback: true,
     },
     entry: "./bootstrap.js",
     output: {
+      publicPath: "/",
       path: distPath,
       filename: "main.js",
       webassemblyModuleFilename: "main.wasm",

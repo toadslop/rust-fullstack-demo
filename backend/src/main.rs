@@ -3,8 +3,8 @@ use actix_web::{
     App, HttpServer,
 };
 use config::{app_state::AppState, cors::get_cors_config, database::get_db_config};
-use routes::all_beers::beers;
-use shared::{BACKEND_URL_KEY, BEERS_ROUTE, DEFAULT_BACKEND_URL};
+use routes::{all_beers::beers, one_beer_by_id::one_beer_by_id};
+use shared::{BACKEND_URL_KEY, BEERS_ROUTE, DEFAULT_BACKEND_URL, SINGLE_BEER_ROUTE};
 use std::io::Error;
 
 pub mod config;
@@ -39,6 +39,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(Data::new(state.clone()))
             .wrap(cors)
             .route(BEERS_ROUTE, web::get().to(beers))
+            .route(SINGLE_BEER_ROUTE, web::get().to(one_beer_by_id))
     })
     .bind(host_port)?
     .run()

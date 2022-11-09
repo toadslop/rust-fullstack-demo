@@ -3,18 +3,22 @@ use yew::{html, virtual_dom::AttrValue, Html};
 use yew_router::Routable;
 
 #[derive(Clone, Routable, PartialEq)]
-enum Route {
+pub enum Route {
     #[at("/")]
     Beers,
     #[at("/beers/:beer_id")]
     BeerDetail { beer_id: String },
+    #[not_found]
+    #[at("/settings/404")]
+    NotFound,
 }
 
-fn switch(route: &Route) -> Html {
-    match route {
+pub fn switch(routes: &Route) -> Html {
+    match routes {
         Route::Beers => html! { <BeerList /> },
         Route::BeerDetail { beer_id } => {
             html! {<BeerDetail beer_id={AttrValue::Owned(beer_id.to_owned())} />}
         }
+        Route::NotFound => html! { <h2>{"404! Not found!"}</h2>},
     }
 }

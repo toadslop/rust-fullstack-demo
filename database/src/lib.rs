@@ -13,4 +13,9 @@ impl BeerQueries {
         let beers = Beer::find().all(db).await?;
         Ok(beers)
     }
+
+    pub async fn find_one(db: &DbConn, id: i32) -> Result<Option<beer::Model>, DbErr> {
+        let beer = Beer::find_by_id(id).one(db).await?;
+        Ok(beer)
+    }
 }
