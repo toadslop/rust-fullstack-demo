@@ -37,3 +37,11 @@ cargo run --manifest-path ./database/migration/Cargo.toml
 ```
 
 ## Running the App
+The app consists of a frontend and a backend component.
+To run the backend, navigate to the backend folder and run `cargo run`
+
+Any pending migrations will be executed on app startup.
+
+The frontend is built using Webpack, so you'll need to install [Node](https://nodejs.org/en/download/) to run it.
+Once you've installed Node, navigate to the fontend folder and run `npm run dev` to start the dev server.
+
