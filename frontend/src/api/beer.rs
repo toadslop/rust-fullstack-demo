@@ -1,28 +1,30 @@
+use std::error::Error;
+
 use super::get_api_url;
 use entity::beer::Model as Beer;
 use reqwasm::http::Request;
 use shared::BEERS_ROUTE;
 
-pub async fn get_beers() -> Vec<Beer> {
+pub async fn get_beers() -> Result<Vec<Beer>, Box<dyn Error>> {
     let url = get_api_url(BEERS_ROUTE);
 
-    Request::get(url.as_str())
+    let beers = Request::get(url.as_str())
         .send()
-        .await
-        .unwrap()
+        .await?
         .json::<Vec<Beer>>()
-        .await
-        .unwrap()
+        .await?;
+
+    Ok(beers)
 }
 
-pub async fn get_beer(id: i32) -> Option<Beer> {
-    let url = get_api_url(BEERS_ROUTE);
+pub async fn get_beer(id: i32) -> Result<Beer, Box<dyn Error>> {
+    let url = get_api_url(&[BEERS_ROUTE, &id.to_string()].join("/"));
 
-    Request::get(url.as_str())
+    let beer = Request::get(url.as_str())
         .send()
-        .await
-        .unwrap()
-        .json::<Option<Beer>>()
-        .await
-        .unwrap()
+        .await?
+        .json::<Beer>()
+        .await?;
+
+    Ok(beer)
 }

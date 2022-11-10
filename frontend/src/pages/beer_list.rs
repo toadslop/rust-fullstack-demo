@@ -7,6 +7,7 @@ use yew_router::prelude::use_history;
 pub fn beer_list() -> Html {
     #[allow(clippy::redundant_closure)]
     let beers = use_state(|| Vec::new());
+    let has_error = use_state(|| false);
     let history = use_history().expect("history to be available");
     let row_click = |id: i32| -> Callback<MouseEvent> {
         let history = history.clone();
@@ -17,12 +18,22 @@ pub fn beer_list() -> Html {
         })
     };
 
+    if *has_error {
+        history.push(Route::NotFound)
+    }
+
     {
         let beers = beers.clone();
+        // let has_herror = has_error.clone();
         use_effect_with_deps(
             move |_| {
                 wasm_bindgen_futures::spawn_local(async move {
-                    beers.set(get_beers().await);
+                    let result = get_beers().await;
+                    match result {
+                        Ok(resp) => beers.set(resp),
+                        // We could check the error and respond differently.
+                        Err(_) => has_error.set(true),
+                    };
                 });
                 || ()
             },

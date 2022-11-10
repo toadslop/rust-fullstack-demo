@@ -14,8 +14,8 @@ pub async fn one_beer_by_id(path: web::Path<i32>, data: Data<AppState>) -> impl 
     match beer {
         Ok(beer) => match beer {
             Some(beer) => HttpResponse::Ok().json(beer),
-            None => HttpResponse::NotFound().body(format!("Beer with id {} not found", beer_id)),
+            None => HttpResponse::NotFound().json(format!("Beer with id {} not found", beer_id)),
         },
-        Err(e) => HttpResponse::NotFound().body(e.to_string()),
+        Err(e) => HttpResponse::NotFound().json(e.to_string()),
     }
 }
