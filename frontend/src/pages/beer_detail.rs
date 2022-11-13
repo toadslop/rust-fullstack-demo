@@ -1,4 +1,8 @@
+use crate::components::beer_card::BeerCard;
+use crate::components::reviews_card::ReviewsCard;
 use crate::{api::beer::get_beer, routes::Route};
+use entity::beer::Relation;
+use shared::ApiQueryParams;
 use yew::{
     function_component, html, use_effect_with_deps, use_state, virtual_dom::AttrValue, Properties,
 };
@@ -14,7 +18,8 @@ pub struct Props {
 pub fn beer_detail(props: &Props) -> Html {
     let beer_id = props.beer_id.parse::<i32>().unwrap();
     let has_error = use_state(|| false);
-    let beer = use_state(|| None);
+    let beer_handle = use_state(|| None);
+    let reviews_handle = use_state(|| Vec::new());
     let history = use_history().expect("history to be available");
 
     if *has_error {
@@ -22,13 +27,22 @@ pub fn beer_detail(props: &Props) -> Html {
     }
 
     {
-        let beer = beer.clone();
+        let beer_handle = beer_handle.clone();
+        let reviews_handle = reviews_handle.clone();
         use_effect_with_deps(
             move |_| {
                 wasm_bindgen_futures::spawn_local(async move {
-                    let result = get_beer(beer_id).await;
+                    let queries = ApiQueryParams {
+                        expand: Some(Relation::Review.to_string()),
+                    };
+
+                    let result = get_beer(beer_id, Some(queries)).await;
+
                     match result {
-                        Ok(result) => beer.set(Some(result)),
+                        Ok(result) => {
+                            beer_handle.set(Some(result.0));
+                            reviews_handle.set(result.1);
+                        }
                         Err(_) => has_error.set(true),
                     }
                 });
@@ -38,34 +52,11 @@ pub fn beer_detail(props: &Props) -> Html {
         );
     }
 
-    let content = if let Some(beer) = &*beer {
-        html! {
-           <div class="card" >
-                <div class="row g-0">
-                    <div class="col">
-                        <div class="card-body">
-                            <h6>{&beer.brewery}</h6>
-                            <h5 class="card-title">{&beer.name}</h5>
-                            <p class="card-text">{&beer.description}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-auto">
-                        <img
-                        src={beer.image_url.to_owned()}
-                        class="card-img-right beer-img m-3"
-                        alt={format!("Photo of {}", &beer.name)} />
-                    </div>
-                </div>
-           </div>
-        }
-    } else {
-        html! { <div>{"Loading..."}</div> }
-    };
-
     html! {
         <div class="mt-4 w-75 mx-auto">
           <div class="d-flex flex-column">
-           {content}
+           <BeerCard class="mb-3" beer_handle={beer_handle} />
+           <ReviewsCard reviews_handle={reviews_handle} />
           </div>
         </div>
     }

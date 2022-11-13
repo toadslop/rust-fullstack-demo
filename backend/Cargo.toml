@@ -10,6 +10,8 @@ actix-cors = "0.6.4"
 actix-web = "4.2.1"
 env_logger = "0.9.1"
 database = { path = "../database" }
+entity = { path = "../database/entity" }
 shared = { path= "../shared" }
 log = "0.4.17"
 dotenv = "0.15.0"
+serde = "1.0.147"
