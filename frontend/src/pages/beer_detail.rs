@@ -1,4 +1,5 @@
 use crate::components::beer_card::BeerCard;
+use crate::components::review_form::ReviewForm;
 use crate::components::reviews_card::ReviewsCard;
 use crate::{api::beer::get_beer, routes::Route};
 use entity::beer::Relation;
@@ -16,7 +17,10 @@ pub struct Props {
 
 #[function_component(BeerDetail)]
 pub fn beer_detail(props: &Props) -> Html {
-    let beer_id = props.beer_id.parse::<i32>().unwrap();
+    let beer_id = props
+        .beer_id
+        .parse::<i32>()
+        .expect("the beer id to be parseable to an integer.");
     let has_error = use_state(|| false);
     let beer_handle = use_state(|| None);
     let reviews_handle = use_state(|| Vec::new());
@@ -53,10 +57,11 @@ pub fn beer_detail(props: &Props) -> Html {
     }
 
     html! {
-        <div class="mt-4 w-75 mx-auto">
+        <div class="my-4 w-75 mx-auto">
           <div class="d-flex flex-column">
            <BeerCard class="mb-3" beer_handle={beer_handle} />
-           <ReviewsCard reviews_handle={reviews_handle} />
+           <ReviewsCard class="mb-3" reviews_handle={reviews_handle} />
+           <ReviewForm beer_id={beer_id} />
           </div>
         </div>
     }

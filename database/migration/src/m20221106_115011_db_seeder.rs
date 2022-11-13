@@ -14,7 +14,7 @@ impl MigrationTrait for Migration {
             name: Set("Stone IPA".to_owned()),
             brewery: Set("Stone Brewing".to_owned()),
             brewery_location: Set("Escondido, California, United States".to_owned()),
-            alcohol_content: Set(Decimal::new(6, 9)),
+            alcohol_content: Set(Decimal::new(69, 1)),
             average_rating: Set(Decimal::new(33, 1)),
             image_url: Set("https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_422".to_owned()),
             description: Set("By definition, an India Pale Ale is hoppier and higher in alcohol than its little brother, pale ale-and we deliver in spades. Now one of the most well respected and best-selling IPAs in the country, this golden beauty explodes with citrusy flavor and hop aromas, all perfectly balanced by a subtle malt character. This crisp, extra hoppy brew is hugely refreshing on a hot day, but will always deliver no matter when you choose to drink it.".to_owned()),

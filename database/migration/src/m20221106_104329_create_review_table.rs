@@ -8,29 +8,6 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        let thing = Table::create()
-            .table(Review::Table)
-            .if_not_exists()
-            .col(
-                ColumnDef::new(Review::Id)
-                    .integer()
-                    .not_null()
-                    .auto_increment()
-                    .primary_key(),
-            )
-            .col(ColumnDef::new(Review::ReviewerName).string().not_null())
-            .col(ColumnDef::new(Review::ReviewText).string().not_null())
-            .col(ColumnDef::new(Review::Rating).small_unsigned_len(1))
-            .col(ColumnDef::new(Review::Date).timestamp())
-            .col(ColumnDef::new(Review::BeerId).integer())
-            .foreign_key(
-                ForeignKey::create()
-                    .name("fk_beer")
-                    .from(Review::Table, Review::BeerId)
-                    .to(Beer::Table, Beer::Id),
-            )
-            .to_string(PostgresQueryBuilder);
-
         manager
             .create_table(
                 Table::create()

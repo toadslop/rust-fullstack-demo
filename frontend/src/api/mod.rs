@@ -3,6 +3,7 @@ use load_dotenv::load_dotenv;
 
 use url::Url;
 pub mod beer;
+pub mod review;
 
 pub fn get_api_url(endpoint: &str) -> Url {
     load_dotenv!();

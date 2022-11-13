@@ -25,6 +25,10 @@ getrandom = { version = "0.2.8", features = ["js"] }
 yew-router = "0.16.0"
 url = "2.3.1"
 shared = { path = "../shared" }
+web-sys = { version = "0.3.60", features = ["Element"] }
+serde-wasm-bindgen = "0.4.5"
+gloo-utils = "0.1.5"
+js-sys = "0.3.60"
 
 [lib]
 crate-type = ["rlib", "cdylib"]

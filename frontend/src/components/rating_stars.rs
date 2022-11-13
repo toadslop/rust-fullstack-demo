@@ -1,34 +1,43 @@
-use yew::{function_component, html, virtual_dom::VNode, Properties};
+use yew::{classes, function_component, html, Callback, MouseEvent, Properties};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
     pub rating: i32,
+    #[prop_or_default]
+    pub editable: bool,
+    #[prop_or_default]
+    pub on_click_star: Option<Callback<MouseEvent>>,
 }
 
 #[function_component(RatingStars)]
 pub fn rating_stars(props: &Props) -> Html {
     let rating = props.rating;
+    let editable = props.editable;
+    let on_click_star = props.on_click_star.clone();
+
+    let class = if editable { Some("pointer") } else { None };
+
     if rating > 5 || rating < 0 {
         return html!(<div>{"Invalid"}</div>);
     }
 
     html! {
-        <div>
-          {calc_star(1, rating)}
-          {calc_star(2, rating)}
-          {calc_star(3, rating)}
-          {calc_star(4, rating)}
-          {calc_star(5, rating)}
+        <div class={classes!(class)}>
+            <i data-rating={1} onclick={on_click_star.clone()} class={calc_star(1, rating)}></i>
+            <i data-rating={2} onclick={on_click_star.clone()} class={calc_star(2, rating)}></i>
+            <i data-rating={3} onclick={on_click_star.clone()} class={calc_star(3, rating)}></i>
+            <i data-rating={4} onclick={on_click_star.clone()}  class={calc_star(4, rating)}></i>
+            <i data-rating={5} onclick={on_click_star}  class={calc_star(5, rating)}></i>
         </div>
     }
 }
 
-fn calc_star(star_num: i32, rating: i32) -> VNode {
+fn calc_star(star_num: i32, rating: i32) -> String {
     if rating >= star_num {
-        html!(<i class="fa-solid fa-star"></i>)
+        String::from("fa-solid fa-star")
     } else if rating < star_num && rating > star_num - 1 {
-        html!(<i class="fa-solid fa-star"></i>)
+        String::from("fa-regular fa-star-half-stroke")
     } else {
-        html!(<i class="fa-regular fa-star"></i>)
+        String::from("fa-regular fa-star")
     }
 }

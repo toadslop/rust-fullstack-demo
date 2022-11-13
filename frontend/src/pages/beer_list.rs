@@ -24,7 +24,6 @@ pub fn beer_list() -> Html {
 
     {
         let beers = beers.clone();
-        // let has_herror = has_error.clone();
         use_effect_with_deps(
             move |_| {
                 wasm_bindgen_futures::spawn_local(async move {
