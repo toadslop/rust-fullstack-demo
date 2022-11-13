@@ -3,7 +3,7 @@ use entity::beer::Relation;
 pub use migration;
 pub use migration::sea_orm_migration::MigratorTrait;
 use migration::DbErr;
-use sea_orm::ActiveModelTrait;
+use sea_orm::{ActiveModelTrait, ActiveValue, Unset};
 use sea_orm::{DbConn, EntityTrait, ModelTrait};
 
 pub struct BeerQueries;
@@ -41,8 +41,9 @@ impl BeerQueries {
         mut review: review::Model,
     ) -> Result<review::Model, DbErr> {
         review.beer_id = id;
-        let new_review = review::ActiveModel::from(review);
-
+        let mut new_review = review::ActiveModel::from(review);
+        new_review.id = ActiveValue::NotSet;
+        new_review.date = ActiveValue::NotSet;
         new_review.insert(db).await
     }
 }

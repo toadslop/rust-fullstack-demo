@@ -2,21 +2,12 @@ use crate::{api::review::add_review, components::rating_stars::RatingStars};
 use entity::review;
 use wasm_bindgen::JsCast;
 use web_sys::{Element, EventTarget, HtmlInputElement, HtmlTextAreaElement};
-use yew::{function_component, html, use_state, Callback, Properties};
-
-// pub struct Model {
-//   #[sea_orm(primary_key)]
-//   pub id: i32,
-//   pub reviewer_name: String,
-//   pub review_text: String,
-//   pub rating: i32,
-//   pub date: DateTime,
-//   pub beer_id: i32,
-// }
+use yew::{function_component, html, use_state, Callback, Properties, UseStateHandle};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
     pub beer_id: i32,
+    pub reviews_handle: UseStateHandle<Vec<review::Model>>,
 }
 
 #[function_component(ReviewForm)]
@@ -76,28 +67,27 @@ pub fn review_form(props: &Props) -> Html {
             new_rating_handle.set(new_rating);
         })
     };
-    gloo_console::log!(new_rating_handle.rating);
-    gloo_console::log!(&new_rating_handle.review_text);
 
     let handle_submit = {
         let new_rating_handle = new_rating_handle.clone();
         let new_rating = &*new_rating_handle;
         let new_rating = new_rating.to_owned();
+        let reviews_handle = props.reviews_handle.clone();
         Callback::once(move |e: yew::MouseEvent| {
             e.prevent_default();
-            gloo_console::log!("UP HEReeeeeeeeeeE");
-            gloo_console::log!(&new_rating.review_text);
             wasm_bindgen_futures::spawn_local(async move {
-                gloo_console::log!("UP HERE");
-                gloo_console::log!(&new_rating.review_text);
                 let result = add_review(beer_id, &new_rating).await;
 
                 match result {
-                    Ok(_resp) => gloo_console::log!("success"),
-                    // We could check the error and respond differently.
+                    Ok(resp) => {
+                        let reviews = &*reviews_handle;
+                        let mut reviews = reviews.clone();
+                        reviews.push(resp);
+                        reviews_handle.set(reviews);
+                    }
+
                     Err(err) => {
-                        gloo_console::log!(err.to_string());
-                        panic!()
+                        gloo_console::error!(err.to_string());
                     }
                 };
             });

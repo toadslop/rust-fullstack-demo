@@ -1,10 +1,10 @@
 use crate::components::rating_stars::RatingStars;
-use entity::review::Model as Review;
+use entity::review;
 use yew::{classes, function_component, html, Html, Properties, UseStateHandle};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub reviews_handle: UseStateHandle<Vec<Review>>,
+    pub reviews_handle: UseStateHandle<Vec<review::Model>>,
     pub class: &'static str,
 }
 

@@ -60,8 +60,8 @@ pub fn beer_detail(props: &Props) -> Html {
         <div class="my-4 w-75 mx-auto">
           <div class="d-flex flex-column">
            <BeerCard class="mb-3" beer_handle={beer_handle} />
-           <ReviewsCard class="mb-3" reviews_handle={reviews_handle} />
-           <ReviewForm beer_id={beer_id} />
+           <ReviewsCard class="mb-3" reviews_handle={reviews_handle.clone()} />
+           <ReviewForm beer_id={beer_id} reviews_handle={reviews_handle} />
           </div>
         </div>
     }
