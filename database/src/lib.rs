@@ -3,7 +3,7 @@ use entity::beer::Relation;
 pub use migration;
 pub use migration::sea_orm_migration::MigratorTrait;
 use migration::DbErr;
-use sea_orm::{ActiveModelTrait, ActiveValue, Unset};
+use sea_orm::{ActiveModelTrait, ActiveValue};
 use sea_orm::{DbConn, EntityTrait, ModelTrait};
 
 pub struct BeerQueries;
