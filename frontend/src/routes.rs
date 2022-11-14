@@ -2,7 +2,7 @@ use crate::pages::{beer_detail::BeerDetail, beer_list::BeerList};
 use yew::{html, virtual_dom::AttrValue, Html};
 use yew_router::Routable;
 
-#[derive(Clone, Routable, PartialEq)]
+#[derive(Clone, Routable, PartialEq, Eq)]
 pub enum Route {
     #[at("/")]
     Beers,
@@ -15,6 +15,7 @@ pub enum Route {
 
 pub fn switch(routes: &Route) -> Html {
     match routes {
+        #[allow(clippy::let_unit_value)]
         Route::Beers => html! { <BeerList /> },
         Route::BeerDetail { beer_id } => {
             html! {<BeerDetail beer_id={AttrValue::Owned(beer_id.to_owned())} />}

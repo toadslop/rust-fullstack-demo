@@ -17,7 +17,7 @@ pub fn rating_stars(props: &Props) -> Html {
 
     let class = if editable { Some("pointer") } else { None };
 
-    if rating > 5 || rating < 0 {
+    if !(0..=5).contains(&rating) {
         return html!(<div>{"Invalid"}</div>);
     }
 

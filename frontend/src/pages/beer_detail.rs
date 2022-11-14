@@ -23,6 +23,7 @@ pub fn beer_detail(props: &Props) -> Html {
         .expect("the beer id to be parseable to an integer.");
     let has_error = use_state(|| false);
     let beer_handle = use_state(|| None);
+    #[allow(clippy::redundant_closure)]
     let reviews_handle = use_state(|| Vec::new());
     let history = use_history().expect("history to be available");
 
