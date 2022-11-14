@@ -32,3 +32,9 @@ js-sys = "0.3.60"
 
 [lib]
 crate-type = ["rlib", "cdylib"]
+
+[profile.release]
+panic = 'abort'
+codegen-units = 1
+opt-level = 'z'
+lto = true
