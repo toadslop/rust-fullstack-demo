@@ -26,8 +26,8 @@ pub fn rating_stars(props: &Props) -> Html {
             <i data-rating={1} onclick={on_click_star.clone()} class={calc_star(1, rating)}></i>
             <i data-rating={2} onclick={on_click_star.clone()} class={calc_star(2, rating)}></i>
             <i data-rating={3} onclick={on_click_star.clone()} class={calc_star(3, rating)}></i>
-            <i data-rating={4} onclick={on_click_star.clone()}  class={calc_star(4, rating)}></i>
-            <i data-rating={5} onclick={on_click_star}  class={calc_star(5, rating)}></i>
+            <i data-rating={4} onclick={on_click_star.clone()} class={calc_star(4, rating)}></i>
+            <i data-rating={5} onclick={on_click_star} class={calc_star(5, rating)}></i>
         </div>
     }
 }

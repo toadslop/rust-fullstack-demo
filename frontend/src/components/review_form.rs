@@ -21,8 +21,6 @@ pub fn review_form(props: &Props) -> Html {
 
     let on_click_star = {
         let new_rating_handle = new_rating_handle.clone();
-        let new_rating = &*new_rating_handle;
-        let mut new_rating = new_rating.to_owned();
         Callback::once(move |e: yew::MouseEvent| {
             let target = e.target().expect("event target to be present");
             let element = target
@@ -33,6 +31,7 @@ pub fn review_form(props: &Props) -> Html {
                 .expect("there to be a data rating on the Element")
                 .parse::<i32>();
 
+            let mut new_rating = (*new_rating_handle).to_owned();
             new_rating.rating = value.expect("the rating to be parsable to i32");
             new_rating_handle.set(new_rating);
         })
@@ -40,14 +39,13 @@ pub fn review_form(props: &Props) -> Html {
 
     let handle_name_change = {
         let new_rating_handle = new_rating_handle.clone();
-        let new_rating = &*new_rating_handle;
-        let mut new_rating = new_rating.to_owned();
         Callback::once(move |e: yew::Event| {
             let target: Option<EventTarget> = e.target();
             let input = target
                 .and_then(|t| t.dyn_into::<HtmlInputElement>().ok())
                 .expect("the target to be an input element");
             let reviewer_name = input.value();
+            let mut new_rating = (*new_rating_handle).to_owned();
             new_rating.reviewer_name = reviewer_name;
             new_rating_handle.set(new_rating);
         })
@@ -55,14 +53,13 @@ pub fn review_form(props: &Props) -> Html {
 
     let handle_comment_change = {
         let new_rating_handle = new_rating_handle.clone();
-        let new_rating = &*new_rating_handle;
-        let mut new_rating = new_rating.to_owned();
         Callback::once(move |e: yew::Event| {
             let target: Option<EventTarget> = e.target();
             let input = target
                 .and_then(|t| t.dyn_into::<HtmlTextAreaElement>().ok())
                 .expect("the target to be a text area element");
             let comment = input.value();
+            let mut new_rating = (*new_rating_handle).to_owned();
             new_rating.review_text = comment;
             new_rating_handle.set(new_rating);
         })
@@ -70,18 +67,17 @@ pub fn review_form(props: &Props) -> Html {
 
     let handle_submit = {
         let new_rating_handle = new_rating_handle.clone();
-        let new_rating = &*new_rating_handle;
-        let new_rating = new_rating.to_owned();
         let reviews_handle = props.reviews_handle.clone();
         Callback::once(move |e: yew::MouseEvent| {
             e.prevent_default();
+            let new_rating = (*new_rating_handle).to_owned();
+
             wasm_bindgen_futures::spawn_local(async move {
                 let result = add_review(beer_id, &new_rating).await;
 
                 match result {
                     Ok(resp) => {
-                        let reviews = &*reviews_handle;
-                        let mut reviews = reviews.clone();
+                        let mut reviews = (*reviews_handle).clone();
                         reviews.push(resp);
                         reviews_handle.set(reviews);
                     }
