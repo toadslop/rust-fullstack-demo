@@ -1,14 +1,28 @@
 # rust-fullstack-demo
 A fullstack Rust application demo
 
-## Database Setup
+## Database Installation
 This app requires a Postgres 14 database.
-Download and install Postgres for your operating system [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads);
+Follow the steps in the article below which matches your operating system.
+Be sure to select Postgres 14 rather than whatever version is mentioned in the article.
 
-You may need to set up environment variables.
-Follow the steps in section 3 of this [article](https://aeadedoyin.medium.com/getting-started-with-postgresql-on-windows-201906131300-ee75f066df78).
-Remember to substitute "10" with "14" where appropriate.
+Downloads for the various operating systems can be found [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
+### Windows
+Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql/)
+
+After installation, open your terminal and try running "psql".
+If you find that the command isn't find, then you probably need to set some environment variables.
+
+If you're running windows, you can follow the instructions in step 3 of this [article](https://aeadedoyin.medium.com/getting-started-with-postgresql-on-windows-201906131300-ee75f066df78).
+
+### Mac
+Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-macos/)
+
+### Linux
+Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-linux/)
+
+## Database Setup
 Once you have a Postgres server up and running, create a database and make sure your database user as read and write privileges.
 
 Example:
