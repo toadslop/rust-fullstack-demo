@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sea-orm = { version = "0.10.1", features = ["sqlx-postgres", "runtime-actix-rustls", "macros"]}
+sea-orm = { version = "0.10.1", features = ["sqlx-sqlite", "runtime-actix-rustls", "macros"]}
 migration = { path = "./migration"}
 entity = { path = "./entity"}

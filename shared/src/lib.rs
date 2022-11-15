@@ -5,7 +5,7 @@ pub const FRONTEND_HOST_KEY: &str = "FRONTEND_HOST";
 pub const FRONTEND_PORT_KEY: &str = "FRONTEND_PORT";
 pub const FRONTEND_PROTOCOL_KEY: &str = "FRONTEND_PROTOCOL";
 
-pub const DEFAULT_DB_URL: &str = "postgres://localhost:5432/";
+pub const DEFAULT_DB_URL: &str = "sqlite:./sqlite.db?mode=rwc";
 pub const DATABASE_URL_KEY: &str = "DATABASE_URL";
 pub const DATABASE_PROTOCOL_KEY: &str = "DATABASE_PROTOCOL";
 pub const DATABASE_PORT_KEY: &str = "DATABASE_PORT";
