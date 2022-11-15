@@ -23,12 +23,7 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Review::ReviewerName).string().not_null())
                     .col(ColumnDef::new(Review::ReviewText).string().not_null())
                     .col(ColumnDef::new(Review::Rating).integer().not_null())
-                    .col(
-                        ColumnDef::new(Review::Date)
-                            .timestamp()
-                            .default("now()")
-                            .not_null(),
-                    )
+                    .col(ColumnDef::new(Review::Date).timestamp().not_null())
                     .col(ColumnDef::new(Review::BeerId).integer().not_null())
                     .foreign_key(
                         ForeignKey::create()

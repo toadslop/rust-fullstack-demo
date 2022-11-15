@@ -10,6 +10,7 @@ path = "src/lib.rs"
 
 [dependencies]
 async-std = { version = "^1", features = ["attributes", "tokio1"] }
+chrono = "0.4.23"
 entity = { path = "../entity" }
 shared = { path = "../../shared" }
 
@@ -17,5 +18,5 @@ shared = { path = "../../shared" }
 version = "^0.10.0"
 features = [
   "runtime-actix-rustls",
-  "sqlx-postgres"
+  "sqlx-sqlite"
 ]

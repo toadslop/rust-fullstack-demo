@@ -1,3 +1,4 @@
+use chrono;
 use sea_orm_migration::prelude::*;
 use sea_orm_migration::sea_orm::prelude::Decimal;
 use sea_orm_migration::sea_orm::{ActiveModelTrait, EntityTrait, Set};
@@ -27,6 +28,7 @@ impl MigrationTrait for Migration {
         entity::review::ActiveModel {
             reviewer_name: Set("therock2011(333)".to_owned()),
             rating: Set(3),
+            date: Set(chrono::offset::Local::now().naive_local()),
             review_text: Set("Golden colour has a citrus smell anice citrus flavour with a nice happy citrus kick".to_owned()),
             beer_id: Set(stone.id as i32),
             ..Default::default()
@@ -37,6 +39,7 @@ impl MigrationTrait for Migration {
         entity::review::ActiveModel {
             reviewer_name: Set("p0rkch0p".to_owned()),
             rating: Set(4),
+            date: Set(chrono::offset::Local::now().naive_local()),
             review_text: Set("Pour from can is dark plum with faint frothy purple foam head. Probably not consumed at a cool enough temperature  but tastes just fine at room temp. Obviously berry sweet but not too much. Great carbonation with lively fizzy sound. Labeled as IPA but you wouldnt know unless they told you. Not a session beer but perfect for pairing with a meal or post meal.".to_owned()),
             beer_id: Set(stone.id as i32),
             ..Default::default()
