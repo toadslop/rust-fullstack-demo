@@ -2,7 +2,6 @@ FROM rust:1.65-slim-buster AS builder
 COPY ./backend ./app/backend
 COPY ./database ./app/database
 COPY ./shared ./app/shared
-RUN ls
 RUN cargo build --release --manifest-path /app/backend/Cargo.toml
 
 FROM debian:buster-slim

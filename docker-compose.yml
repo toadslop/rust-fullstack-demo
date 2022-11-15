@@ -5,11 +5,6 @@ services:
       - docker.env
     image: "postgres:14.6"
     restart: always
-    # environment:
-    #   - POSTGRES_PASSWORD=${DB_PASSWORD}
-    #   - POSTGRES_USER=${DB_USER}
-    #   - POSTGRES_DB=${DB_NAME}
-    #   - PGDATA=./database/data/
     ports:
       - "5434:5432"
   backend:
@@ -20,8 +15,17 @@ services:
       dockerfile: ./backend/Dockerfile
     ports: 
       - "8080:8080"
-    # environment:
-    #   - DATABASE_URL=${DATABASE_URL}
-    #   - FRONTEND_URL=${FRONTEND_URL}
     depends_on:
       - database
+  frontend:
+    env_file:
+      - docker.env
+    build: 
+      context: ./
+      dockerfile: ./frontend/Dockerfile
+      args:
+        - BACKEND_URL=$BACKEND_URL
+    ports: 
+      - "8000:8000"
+    depends_on:
+      - backend

@@ -1,6 +1,4 @@
-// use database::env::BEERS_ROUTE;
 use load_dotenv::load_dotenv;
-
 use url::Url;
 pub mod beer;
 pub mod review;

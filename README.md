@@ -15,7 +15,7 @@ It's contents should look like this:
 ```
 DATABASE_URL=postgres://ratebeer_app:passw0rd@database:5432/ratebeer_clone
 FRONTEND_URL=http://localhost:8000
-BACKEND_URL=http://localhost:8080
+BACKEND_URL=http://backend:8080
 POSTGRES_PASSWORD=passw0rd
 POSTGRES_USER=ratebeer_app
 POSTGRES_DB=ratebeer_clone
