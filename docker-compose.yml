@@ -23,8 +23,8 @@ services:
     build: 
       context: ./
       dockerfile: ./frontend/Dockerfile
-      args:
-        - BACKEND_URL=$BACKEND_URL
+      # args:
+      #   - BACKEND_URL=$BACKEND_PROTOCOL://$BACKEND_HOST:$BACKEND_PORT
     ports: 
       - "8000:8000"
     depends_on:

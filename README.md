@@ -13,21 +13,31 @@ To run the docker container, you'll need file called `docker.env` to hold your e
 It's contents should look like this:
 
 ```
-DATABASE_URL=postgres://ratebeer_app:passw0rd@database:5432/ratebeer_clone
-FRONTEND_URL=http://localhost:8000
-BACKEND_URL=http://backend:8080
-POSTGRES_PASSWORD=passw0rd
-POSTGRES_USER=ratebeer_app
-POSTGRES_DB=ratebeer_clone
 PGDATA=./database/data/
+
+FRONTEND_HOST=localhost
+FRONTEND_PORT=8000
+FRONTEND_PROTOCOL=http
+
+DATABASE_PROTOCOL=postgres
+DATABASE_PORT=5432
+POSTGRES_USER=ratebeer_app
+POSTGRES_PASSWORD=passw0rd
+POSTGRES_DB=ratebeer_clone
+POSTGRES_HOST=database
+
+BACKEND_HOST=backend
+BACKEND_PORT=8080
+BACKEND_PROTOCOL=http
 ```
+
+Once everything is up and running, visit [http://localhost:8000] to view the app.
 
 ## Running Outside Docker
 
 ### Database Installation
 This app requires a Postgres 14 database.
 Follow the steps in the article below which matches your operating system.
-Be sure to select Postgres 14 rather than whatever version is mentioned in the article.
 
 Downloads for the various operating systems can be found [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
@@ -64,24 +74,28 @@ NOTE: If you get an error message saying "connection refused", your postgres ser
 sudo -u postgres psql -p 5433
 ```
 
-Next create a .env file in the root of this project and put the connection url inside.
-It should look like this:
+### ENV FILE
+You'll need a .env file to define the various urls that the app needs to run.
+It should look like the following:
 
 ```
-DATABASE_URL=postgres://{postgres_user}:{postgres_password}@localhost:5432/{database_name}
+FRONTEND_HOST=localhost
+FRONTEND_PORT=8000
+FRONTEND_PROTOCOL=http
+
+DATABASE_PROTOCOL=postgres
+DATABASE_PORT=5432
+POSTGRES_USER=ratebeer_app
+POSTGRES_PASSWORD=password
+POSTGRES_DB=ratebeer_clone
+POSTGRES_HOST=localhost
+
+BACKEND_HOST=localhost
+BACKEND_PORT=8080
+BACKEND_PROTOCOL=http
 ```
 
-If you used the exact settings from above then it should look like this:
-
-```
-DATABASE_URL=postgres://rustuser:password@localhost:5432/rustfullstack
-```
-
-NOTE: If you needed to use port 5433 as above, then change the port accordingly here:
-
-```
-DATABASE_URL=postgres://rustuser:password@localhost:5433/rustfullstack
-```
+### Running Database Migrations
 
 Next we need to run the migrations to populate the database with tables and sample data.
 
@@ -89,12 +103,6 @@ From the root directory run the following:
 
 ```bash
 cargo run --manifest-path ./database/migration/Cargo.toml
-```
-
-If the above command fails, you may need to install the SeaOrm CLI. Install it using the following command:
-
-```bash
-cargo install sea-orm-cli
 ```
 
 ### Running the App
@@ -106,13 +114,10 @@ Any pending migrations will be executed on app startup.
 The frontend is built using Webpack, so you'll need to install [Node](https://nodejs.org/en/download/) to run it.
 
 Before running the app, you'll have to install the NPM packages.
+Navigate to the frontend folder and run `npm install`.
 You'll only have to do this once.
 
-```bash
-npm install
-```
-
-Once you've installed Node, navigate to the fontend folder and run `npm run dev` to start the dev server.
+From the frontend folder run `npm run dev` to start the dev server.
 
 Note: On Windows, you might see the following error:
 

@@ -1,8 +1,8 @@
 FROM node:hydrogen-alpine3.15 AS node
 
 FROM rust:1.65.0-alpine AS build
-ARG BACKEND_URL
-RUN export BACKEND_URL=$BACKEND_URL
+# ARG BACKEND_URL
+# RUN export BACKEND_URL=$BACKEND_URL
 RUN apk add build-base
 RUN rustup target add wasm32-unknown-unknown
 COPY --from=node /usr/lib /usr/lib
