@@ -1,14 +1,13 @@
+use super::env::Env;
 use database::{
     migration::Migrator,
     sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr},
     MigratorTrait,
 };
-use shared::DATABASE_URL_KEY;
 use std::time::Duration;
 
-pub async fn get_db_config() -> Result<DatabaseConnection, DbErr> {
-    let db_url = std::env::var(DATABASE_URL_KEY).expect("the database url to be set.");
-    let mut opt = ConnectOptions::new(db_url.to_owned());
+pub async fn get_db_config(env: &Env) -> Result<DatabaseConnection, DbErr> {
+    let mut opt = ConnectOptions::new(env.get_db_url().to_string());
 
     opt.max_connections(100)
         .min_connections(5)

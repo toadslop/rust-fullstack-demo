@@ -23,7 +23,6 @@ yew = "0.19.3"
 entity = { path = "../database/entity" }
 getrandom = { version = "0.2.8", features = ["js"] }
 yew-router = "0.16.0"
-url = "2.3.1"
 shared = { path = "../shared" }
 web-sys = { version = "0.3.60", features = ["Element"] }
 serde-wasm-bindgen = "0.4.5"

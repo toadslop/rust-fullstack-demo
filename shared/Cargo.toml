@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 serde = "1.0.147"
-yew-router = "0.16.0"
+url = "2.3.1"

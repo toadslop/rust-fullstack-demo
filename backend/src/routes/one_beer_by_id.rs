@@ -15,6 +15,7 @@ pub async fn one_beer_by_id(
 ) -> impl Responder {
     let id = path.into_inner();
     let db = &data.db;
+    log::info!("Requested beer with id {}", id);
 
     if let Some(expand) = &queries.expand {
         let relation = Relation::from_str(expand);
@@ -40,6 +41,7 @@ pub async fn one_beer_by_id(
 }
 
 fn handle_internal_error(err: DbErr) -> HttpResponse {
+    log::info!("ERR: {}", err.to_string());
     HttpResponse::InternalServerError().json(err.to_string())
 }
 
