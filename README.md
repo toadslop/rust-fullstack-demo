@@ -1,14 +1,37 @@
 # rust-fullstack-demo
 A fullstack Rust application demo
 
-## Database Installation
+## Running on Docker
+First install Docker.
+You can find instructions [here](https://docs.docker.com/get-docker/).
+
+Next, install `docker-compose`.
+This will allow us to build and run several docker containers simultaneously.
+Instructions can be found [here](https://docs.docker.com/compose/install/).
+
+To run the docker container, you'll need file called `docker.env` to hold your environment variables.
+It's contents should look like this:
+
+```
+DATABASE_URL=postgres://ratebeer_app:passw0rd@database:5432/ratebeer_clone
+FRONTEND_URL=http://localhost:8000
+BACKEND_URL=http://localhost:8080
+POSTGRES_PASSWORD=passw0rd
+POSTGRES_USER=ratebeer_app
+POSTGRES_DB=ratebeer_clone
+PGDATA=./database/data/
+```
+
+## Running Outside Docker
+
+### Database Installation
 This app requires a Postgres 14 database.
 Follow the steps in the article below which matches your operating system.
 Be sure to select Postgres 14 rather than whatever version is mentioned in the article.
 
 Downloads for the various operating systems can be found [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
-### Windows
+#### Windows
 Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql/)
 
 After installation, open your terminal and try running "psql".
@@ -16,13 +39,13 @@ If you find that the command isn't find, then you probably need to set some envi
 
 If you're running windows, you can follow the instructions in step 3 of this [article](https://aeadedoyin.medium.com/getting-started-with-postgresql-on-windows-201906131300-ee75f066df78).
 
-### Mac
+#### Mac
 Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-macos/)
 
-### Linux
+#### Linux
 Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-linux/)
 
-## Database Setup
+### Database Setup
 Once you have a Postgres server up and running, create a database and make sure your database user as read and write privileges.
 
 Example:
@@ -74,7 +97,7 @@ If the above command fails, you may need to install the SeaOrm CLI. Install it u
 cargo install sea-orm-cli
 ```
 
-## Running the App
+### Running the App
 The app consists of a frontend and a backend component.
 To run the backend, navigate to the backend folder and run `cargo run`
 
