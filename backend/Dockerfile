@@ -1,4 +1,6 @@
 FROM rust:1.65.0-alpine3.16 AS builder
+RUN apk upgrade --update-cache --available && \
+    apk add build-base
 COPY ./backend ./app/backend
 COPY ./database ./app/database
 COPY ./shared ./app/shared
