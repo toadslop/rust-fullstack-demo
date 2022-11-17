@@ -79,8 +79,6 @@ You'll need a file to hold necessary environment variables.
 If you're running docker, it should be named `docker.env` and contain the following:
 
 ```
-PGDATA=./database/data/
-
 FRONTEND_HOST=localhost
 FRONTEND_PORT=8000
 FRONTEND_PROTOCOL=http

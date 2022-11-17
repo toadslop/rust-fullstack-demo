@@ -7,6 +7,10 @@ services:
     restart: always
     ports:
       - "5434:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data/pgdata
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
   backend:
     env_file:
       - docker.env
@@ -29,3 +33,5 @@ services:
       - "8000:8000"
     depends_on:
       - backend
+volumes:
+  dbdata:
