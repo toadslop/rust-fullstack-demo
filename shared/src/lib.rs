@@ -16,12 +16,18 @@ pub const DATABASE_HOST_KEY: &str = "POSTGRES_HOST";
 
 pub const DEFAULT_BACKEND_URL: &str = "http://localhost:8080";
 pub const BACKEND_HOST_KEY: &str = "BACKEND_HOST";
+pub const BACKEND_INTERNAL_HOST_KEY: &str = "BACKEND_HOST_INTERNAL";
 pub const BACKEND_PORT_KEY: &str = "BACKEND_PORT";
 pub const BACKEND_PROTOCOL_KEY: &str = "BACKEND_PROTOCOL";
 
 pub const BEERS_ROUTE: &str = "/beers";
 pub const SINGLE_BEER_ROUTE: &str = "/beers/{beer_id}";
 pub const REVIEWS_BY_BEER_ROUTE: &str = "/beers/{beer_id}/reviews";
+
+pub enum AppComponent {
+    Frontend,
+    Backend,
+}
 
 #[derive(Deserialize)]
 pub struct ApiQueryParams {
@@ -61,15 +67,26 @@ pub fn init_database_url() -> Url {
     url
 }
 
-pub fn init_backend_url() -> Url {
+pub fn init_backend_url(component: AppComponent) -> Url {
     let mut url = Url::parse(DEFAULT_BACKEND_URL).expect("the default backend url to be parseable");
 
     if let Ok(protocol) = std::env::var(BACKEND_PROTOCOL_KEY) {
         url.set_scheme(&protocol).unwrap();
     }
 
-    if let Ok(host) = std::env::var(BACKEND_HOST_KEY) {
-        url.set_host(Some(&host)).unwrap();
+    match component {
+        AppComponent::Frontend => {
+            if let Ok(host) = std::env::var(BACKEND_HOST_KEY) {
+                url.set_host(Some(&host)).unwrap();
+            }
+        }
+        AppComponent::Backend => {
+            if let Ok(host) = std::env::var(BACKEND_INTERNAL_HOST_KEY) {
+                url.set_host(Some(&host)).unwrap();
+            } else if let Ok(host) = std::env::var(BACKEND_HOST_KEY) {
+                url.set_host(Some(&host)).unwrap();
+            }
+        }
     }
 
     if let Ok(port) = std::env::var(BACKEND_PORT_KEY) {

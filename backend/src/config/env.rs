@@ -1,4 +1,4 @@
-use shared::{init_backend_url, init_database_url, init_frontend_url, Url};
+use shared::{init_backend_url, init_database_url, init_frontend_url, AppComponent, Url};
 
 #[derive(Debug, Clone)]
 pub struct Env {
@@ -12,7 +12,7 @@ impl Env {
         Self {
             frontend_url: init_frontend_url(),
             db_url: init_database_url(),
-            backend_url: init_backend_url(),
+            backend_url: init_backend_url(AppComponent::Backend),
         }
     }
 
