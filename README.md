@@ -75,8 +75,30 @@ sudo -u postgres psql -p 5433
 ```
 
 ### ENV FILE
-You'll need a .env file to define the various urls that the app needs to run.
-It should look like the following:
+You'll need a file to hold necessary environment variables.
+If you're running docker, it should be named `docker.env` and contain the following:
+
+```
+PGDATA=./database/data/
+
+FRONTEND_HOST=localhost
+FRONTEND_PORT=8000
+FRONTEND_PROTOCOL=http
+
+DATABASE_PROTOCOL=postgres
+DATABASE_PORT=5432
+POSTGRES_USER=ratebeer_app
+POSTGRES_PASSWORD=passw0rd
+POSTGRES_DB=ratebeer_clone
+POSTGRES_HOST=database
+
+BACKEND_HOST=localhost
+BACKEND_HOST_INTERNAL=0.0.0.0
+BACKEND_PORT=8080
+BACKEND_PROTOCOL=http
+```
+
+If you're running it outside of docker, the file should be called `.env` and should contain the following:
 
 ```
 FRONTEND_HOST=localhost
@@ -94,6 +116,7 @@ BACKEND_HOST=localhost
 BACKEND_PORT=8080
 BACKEND_PROTOCOL=http
 ```
+
 
 ### Running Database Migrations
 
