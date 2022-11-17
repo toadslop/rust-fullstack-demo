@@ -12,6 +12,10 @@ path = "src/lib.rs"
 async-std = { version = "^1", features = ["attributes", "tokio1"] }
 entity = { path = "../entity" }
 shared = { path = "../../shared" }
+csv = "1.1.6"
+fake = "2.5.0"
+rand = "0.8.5"
+include_dir = "0.7.3"
 
 [dependencies.sea-orm-migration]
 version = "^0.10.0"

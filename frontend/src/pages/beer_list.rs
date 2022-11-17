@@ -64,8 +64,8 @@ pub fn beer_list() -> Html {
                     html!{
                         <tr class="pointer" onclick={row_click(beer.id)}>
                             <th scope="row">{&beer.name}</th>
-                            <td >{&beer.alcohol_content}</td>
-                            <td >{&beer.average_rating}</td>
+                            <td >{format!("{:.1}%", &beer.alcohol_content)}</td>
+                            <td >{format!("{:.2}", &beer.average_rating)}</td>
                             <td >{&beer.style}</td>
                         </tr>
                     }

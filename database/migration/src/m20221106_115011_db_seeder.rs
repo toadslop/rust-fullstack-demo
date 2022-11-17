@@ -1,48 +1,56 @@
+use csv::ReaderBuilder;
+use entity::beer;
+use fake::faker::internet::en::Username;
+use fake::faker::lorem::en::Sentences;
+use fake::Fake;
+use include_dir::include_dir;
+use rand::Rng;
 use sea_orm_migration::prelude::*;
-use sea_orm_migration::sea_orm::prelude::Decimal;
 use sea_orm_migration::sea_orm::{ActiveModelTrait, EntityTrait, Set};
 
 #[derive(DeriveMigrationName)]
-pub struct Migration;
+pub struct Migration {
+    pub beer_csv: Option<String>,
+}
+
+impl Migration {
+    pub fn init_csv(&mut self) {
+        self.beer_csv = Some(
+            include_dir!("$CARGO_MANIFEST_DIR/data")
+                .get_file("beers.csv")
+                .unwrap()
+                .contents_utf8()
+                .unwrap()
+                .to_string(),
+        );
+    }
+}
 
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         let db = manager.get_connection();
+        let mut rng = rand::rngs::OsRng;
+        let beer_csv = self.beer_csv.clone().unwrap();
+        let mut reader = ReaderBuilder::new().from_reader(beer_csv.as_bytes());
 
-        let stone = entity::beer::ActiveModel {
-            name: Set("Stone IPA".to_owned()),
-            brewery: Set("Stone Brewing".to_owned()),
-            brewery_location: Set("Escondido, California, United States".to_owned()),
-            alcohol_content: Set(Decimal::new(69, 1)),
-            average_rating: Set(Decimal::new(33, 1)),
-            image_url: Set("https://res.cloudinary.com/ratebeer/image/upload/d_beer_img_default.png,f_auto/beer_422".to_owned()),
-            description: Set("By definition, an India Pale Ale is hoppier and higher in alcohol than its little brother, pale ale-and we deliver in spades. Now one of the most well respected and best-selling IPAs in the country, this golden beauty explodes with citrusy flavor and hop aromas, all perfectly balanced by a subtle malt character. This crisp, extra hoppy brew is hugely refreshing on a hot day, but will always deliver no matter when you choose to drink it.".to_owned()),
-            style: Set("IPA".to_owned()),
-            ..Default::default()
+        for result in reader.deserialize::<beer::Model>() {
+            let record = result.map_err(|err| DbErr::Custom(err.to_string()))?;
+            let active_record: beer::ActiveModel = record.into();
+            let result = active_record.insert(db).await?;
+            let review: Vec<String> = Sentences(1..10).fake_with_rng(&mut rng);
+            for _ in 0..rng.gen_range(0..5) {
+                entity::review::ActiveModel {
+                    reviewer_name: Set(Username().fake_with_rng(&mut rng)),
+                    rating: Set(rng.gen_range(0..5)),
+                    review_text: Set(review.join(" ")),
+                    beer_id: Set(result.id as i32),
+                    ..Default::default()
+                }
+                .insert(db)
+                .await?;
+            }
         }
-        .insert(db)
-        .await?;
-
-        entity::review::ActiveModel {
-            reviewer_name: Set("therock2011(333)".to_owned()),
-            rating: Set(3),
-            review_text: Set("Golden colour has a citrus smell anice citrus flavour with a nice happy citrus kick".to_owned()),
-            beer_id: Set(stone.id as i32),
-            ..Default::default()
-        }
-        .insert(db)
-        .await?;
-
-        entity::review::ActiveModel {
-            reviewer_name: Set("p0rkch0p".to_owned()),
-            rating: Set(4),
-            review_text: Set("Pour from can is dark plum with faint frothy purple foam head. Probably not consumed at a cool enough temperature  but tastes just fine at room temp. Obviously berry sweet but not too much. Great carbonation with lively fizzy sound. Labeled as IPA but you wouldnt know unless they told you. Not a session beer but perfect for pairing with a meal or post meal.".to_owned()),
-            beer_id: Set(stone.id as i32),
-            ..Default::default()
-        }
-        .insert(db)
-        .await?;
 
         Ok(())
     }
