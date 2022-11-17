@@ -32,6 +32,7 @@ async fn main() -> std::io::Result<()> {
         .port()
         .expect("there to be a backend port");
 
+    log::info!("Listening on {}:{}", host, port);
     HttpServer::new(move || {
         let cors = get_cors_config(&env);
 
