@@ -1,6 +1,35 @@
 # rust-fullstack-demo
 A fullstack Rust application demo
 
+## Items Demonstrated In this App
+
+### General
+* Compile time environment variables
+* Runtime environment variables
+* Sharing entities between frontend and backend
+* Dockerizing Rust frontends and backends
+
+### Database
+* Object Relational Mapping
+* Seeding with random data
+* Seeding with CSV data
+* Entity Definitions
+
+### Backend
+* Routing
+* Middleware
+* CORS configuration
+* Application State
+* Database connections
+
+### Frontend
+* Asynchronous data fetching
+* Functional components
+* State management with hooks
+* Posting data
+* Building with webpack
+
+
 ## Running on Docker
 First install Docker.
 You can find instructions [here](https://docs.docker.com/get-docker/).
