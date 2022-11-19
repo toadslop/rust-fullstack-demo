@@ -6,6 +6,7 @@ use fake::Fake;
 use include_dir::include_dir;
 use rand::Rng;
 use sea_orm_migration::prelude::*;
+use sea_orm_migration::sea_orm::prelude::Decimal;
 use sea_orm_migration::sea_orm::{ActiveModelTrait, EntityTrait, Set};
 
 #[derive(DeriveMigrationName)]
@@ -37,20 +38,35 @@ impl MigrationTrait for Migration {
         for result in reader.deserialize::<beer::Model>() {
             let record = result.map_err(|err| DbErr::Custom(err.to_string()))?;
             let active_record: beer::ActiveModel = record.into();
-            let result = active_record.insert(db).await?;
+            let beer = active_record.insert(db).await?;
+
+            let mut ratings_sum = 0;
+            let mut ratings_count = 0;
 
             for _ in 0..rng.gen_range(0..5) {
-                let review: Vec<String> = Sentences(1..10).fake_with_rng(&mut rng);
-                entity::review::ActiveModel {
+                let review_text: Vec<String> = Sentences(1..10).fake_with_rng(&mut rng);
+                let review = entity::review::ActiveModel {
                     reviewer_name: Set(Username().fake_with_rng(&mut rng)),
                     rating: Set(rng.gen_range(0..5)),
-                    review_text: Set(review.join(" ")),
-                    beer_id: Set(result.id as i32),
+                    review_text: Set(review_text.join(" ")),
+                    beer_id: Set(beer.id as i32),
                     ..Default::default()
                 }
                 .insert(db)
                 .await?;
+
+                ratings_sum += review.rating;
+                ratings_count += 1;
             }
+
+            let average_rating =
+                Decimal::from_f32_retain((ratings_sum as f32) / ratings_count as f32)
+                    .unwrap_or(Decimal::from(0));
+
+            let mut active_beer = beer::ActiveModel::from(beer);
+            active_beer.average_rating = Set(average_rating);
+
+            active_beer.update(db).await?;
         }
 
         Ok(())
