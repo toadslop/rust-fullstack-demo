@@ -14,7 +14,7 @@ pub fn reviews_card(props: &Props) -> Html {
     let class = props.class;
 
     html! {
-        <div class={classes!("card", class)}>
+        <div class={classes!("card", "shadow-sm", class)}>
             <div class="card-body">
                 <h5>{"Reviews"}</h5>
             </div>

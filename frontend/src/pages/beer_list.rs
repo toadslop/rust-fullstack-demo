@@ -44,7 +44,7 @@ pub fn beer_list() -> Html {
         <div class="mt-4 w-75 mx-auto">
           <div class="d-flex flex-column">
             <h1>{ "Beer List" }</h1>
-            <table class="table">
+            <table class="table shadow-sm">
                 <colgroup>
                     <col width="51%" />
                     <col width="16%" />

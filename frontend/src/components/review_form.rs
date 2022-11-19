@@ -94,7 +94,7 @@ pub fn review_form(props: &Props) -> Html {
     };
 
     html! {
-        <div class="card">
+        <div class="card shadow-sm">
           <div class="card-body">
             <h5>{"Add new review"}</h5>
             <form>

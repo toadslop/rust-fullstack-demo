@@ -34,6 +34,7 @@ pub fn beer_detail(props: &Props) -> Html {
     {
         let beer_handle = beer_handle.clone();
         let reviews_handle = reviews_handle.clone();
+        let handle_dep = reviews_handle.clone();
         use_effect_with_deps(
             move |_| {
                 wasm_bindgen_futures::spawn_local(async move {
@@ -53,7 +54,7 @@ pub fn beer_detail(props: &Props) -> Html {
                 });
                 || ()
             },
-            (),
+            handle_dep,
         );
     }
 
