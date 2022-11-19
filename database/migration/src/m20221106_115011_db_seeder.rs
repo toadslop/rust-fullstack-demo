@@ -38,8 +38,9 @@ impl MigrationTrait for Migration {
             let record = result.map_err(|err| DbErr::Custom(err.to_string()))?;
             let active_record: beer::ActiveModel = record.into();
             let result = active_record.insert(db).await?;
-            let review: Vec<String> = Sentences(1..10).fake_with_rng(&mut rng);
+
             for _ in 0..rng.gen_range(0..5) {
+                let review: Vec<String> = Sentences(1..10).fake_with_rng(&mut rng);
                 entity::review::ActiveModel {
                     reviewer_name: Set(Username().fake_with_rng(&mut rng)),
                     rating: Set(rng.gen_range(0..5)),
