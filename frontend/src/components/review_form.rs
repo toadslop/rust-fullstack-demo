@@ -80,6 +80,9 @@ pub fn review_form(props: &Props) -> Html {
                         let mut reviews = (*reviews_handle).clone();
                         reviews.push(resp);
                         reviews_handle.set(reviews);
+                        new_rating_handle.set(review::Model {
+                            ..Default::default()
+                        });
                     }
 
                     Err(err) => {
@@ -122,7 +125,13 @@ pub fn review_form(props: &Props) -> Html {
               </div>
               <div class="mb-3">
                 <label class="form-check-label" for="review_text">{"Comment"}</label>
-                <textarea onchange={handle_comment_change} type="text" class="form-control" id="review_text" rows={"3"} />
+                <textarea
+                  onchange={handle_comment_change}
+                  type="text"
+                  class="form-control"
+                  id="review_text"
+                  rows={"3"}
+                  value={new_rating_handle.review_text.to_owned()} />
               </div>
               <button
                 onclick={handle_submit}
