@@ -38,27 +38,7 @@ Next, install `docker-compose`.
 This will allow us to build and run several docker containers simultaneously.
 Instructions can be found [here](https://docs.docker.com/compose/install/).
 
-To run the docker container, you'll need file called `docker.env` to hold your environment variables.
-It's contents should look like this:
 
-```
-PGDATA=./database/data/
-
-FRONTEND_HOST=localhost
-FRONTEND_PORT=8000
-FRONTEND_PROTOCOL=http
-
-DATABASE_PROTOCOL=postgres
-DATABASE_PORT=5432
-POSTGRES_USER=ratebeer_app
-POSTGRES_PASSWORD=passw0rd
-POSTGRES_DB=ratebeer_clone
-POSTGRES_HOST=database
-
-BACKEND_HOST=backend
-BACKEND_PORT=8080
-BACKEND_PROTOCOL=http
-```
 
 Once everything is up and running, visit [http://localhost:8000] to view the app.
 
