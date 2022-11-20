@@ -18,3 +18,6 @@
 * [js-sys](https://docs.rs/js-sys/latest/js_sys/) - Bindings to JavaScript’s standard, built-in objects, including their methods and properties.
 * [gloo](https://github.com/rustwasm/gloo) - A toolkit for building fast, reliable Web applications and libraries with Rust and Wasm.
 * [yew](https://yew.rs/) - A framework for creating reliable and efficient web applications.
+
+## Project Infra
+* [cargo-make](https://github.com/sagiegurari/cargo-make)
