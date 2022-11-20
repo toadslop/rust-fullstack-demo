@@ -43,7 +43,7 @@ export default (_env, argv) => {
       new WasmPackPlugin({
         crateDirectory: ".",
         extraArgs: `--no-typescript${
-          argv.mode == "production" && " --release"
+          argv.mode == "production" ? " --release" : ""
         }`,
       }),
     ],
