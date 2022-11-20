@@ -1,0 +1,53 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+[tasks.start]
+command = "cargo"
+args = ["test"]
+install_crate = false
+
+[tasks.start_front]
+workspace = false
+command = "pnpm"
+args = ["run", "--dir", "./frontend", "dev"]
+
+[tasks.build_front]
+workspace = false
+command = "pnpm"
+args = ["run", "--dir", "./frontend", "build"]
+
+[tasks.start_front_prod]
+workspace = false
+command = "pnpm"
+args = ["run", "--dir", "./frontend", "prod"]
+
+[tasks.install_front]
+workspace = false
+command = "pnpm"
+args = ["install", "--dir", "./frontend"]
+
+[tasks.install_start_front]
+workspace = false
+run_task = { name = ["install_front", "start_front"] }
+
+[tasks.install_build_start_front_prod]
+workspace = false
+run_task = { name = ["install_front", "build_front", "start_front_prod"] }
+
+[tasks.start_back]
+workspace = false
+command = "cargo"
+args = ["run", "--manifest-path", "./backend/Cargo.toml"]
+
+[tasks.start_back_prod]
+workspace = false
+command = "cargo"
+args = ["run", "--manifest-path", "./backend/Cargo.toml", "--release"]
+
+[tasks.start_all]
+workspace = false
+run_task = { name = ["install_start_front", "start_back"], parallel = true }
+
+[tasks.start_all_prod]
+workspace = false
+run_task = { name = ["install_build_start_front_prod", "start_back_prod"], parallel = true }

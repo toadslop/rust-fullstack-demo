@@ -8,6 +8,7 @@ A fullstack Rust application demo
 * Runtime environment variables
 * Sharing entities between frontend and backend
 * Dockerizing Rust frontends and backends
+* Running tasks with [Cargo Make](https://github.com/sagiegurari/cargo-make)
 
 ### Database
 * Object Relational Mapping
@@ -38,15 +39,14 @@ Next, install `docker-compose`.
 This will allow us to build and run several docker containers simultaneously.
 Instructions can be found [here](https://docs.docker.com/compose/install/).
 
-
-
 Once everything is up and running, visit [http://localhost:8000] to view the app.
+
+Note that docker-compose will start the app in production mode.
 
 ## Running Outside Docker
 
 ### Database Installation
 This app requires a Postgres 14 database.
-Follow the steps in the article below which matches your operating system.
 
 Downloads for the various operating systems can be found [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
@@ -55,8 +55,8 @@ Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-st
 
 After installation, open your terminal and try running "psql".
 If you find that the command isn't find, then you probably need to set some environment variables.
-
-If you're running windows, you can follow the instructions in step 3 of this [article](https://aeadedoyin.medium.com/getting-started-with-postgresql-on-windows-201906131300-ee75f066df78).
+Follow the instructions in step 3 of this [article](https://aeadedoyin.medium.com/getting-started-with-postgresql-on-windows-201906131300-ee75f066df78) to do so.
+Keep in mind that you will need to set the version to 14.
 
 #### Mac
 Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-macos/)
@@ -65,7 +65,7 @@ Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-st
 Refer to this [article](https://www.postgresqltutorial.com/postgresql-getting-started/install-postgresql-linux/)
 
 ### Database Setup
-Once you have a Postgres server up and running, create a database and make sure your database user as read and write privileges.
+Once you have a Postgres server up and running, create a database and make sure your database user has read and write privileges.
 
 Example:
 
@@ -124,30 +124,13 @@ BACKEND_PORT=8080
 BACKEND_PROTOCOL=http
 ```
 
-
-### Running Database Migrations
-
-Next we need to run the migrations to populate the database with tables and sample data.
-
-From the root directory run the following:
-
-```bash
-cargo run --manifest-path ./database/migration/Cargo.toml
-```
-
 ### Running the App
-The app consists of a frontend and a backend component.
-To run the backend, navigate to the backend folder and run `cargo run`
+[Cargo Make](https://github.com/sagiegurari/cargo-make) as a task running to simplify starting and stopping the application.
+To use cargo make, run `cargo install cargo-make`.
 
-Any pending migrations will be executed on app startup.
+To start the application in development mode, run `cargo make start_all`.
 
-The frontend is built using Webpack, so you'll need to install [Node](https://nodejs.org/en/download/) to run it.
-
-Before running the app, you'll have to install the NPM packages.
-Navigate to the frontend folder and run `npm install`.
-You'll only have to do this once.
-
-From the frontend folder run `npm run dev` to start the dev server.
+To start the application in production mode, run `cargo make start_all_prod`.
 
 Note: On Windows, you might see the following error:
 
@@ -169,3 +152,5 @@ If you get this error, run the following command and then try again:
 ```
 npm install -g wasm-pack
 ```
+
+To view all the available tasks, open Makefile.toml.
