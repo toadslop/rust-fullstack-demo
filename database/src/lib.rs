@@ -77,16 +77,12 @@ async fn calc_avg_review(
         .expect("the reviewed beer to exist");
 
     let current_average_rating = reviewed_beer.average_rating;
-    let old_total = current_average_rating
-        .checked_mul(review_count)
-        .expect("it to be possible to multiply the two numbers");
+    let old_total = current_average_rating * (review_count - Decimal::from(1));
 
-    let new_total = old_total
-        .checked_add(Decimal::from(new_rating))
-        .expect("the additional to be possible");
+    let new_total = old_total + Decimal::from(new_rating);
 
     let new_average = new_total
-        .checked_div(Decimal::from(review_count) + Decimal::from(1))
+        .checked_div(review_count)
         .unwrap_or(Decimal::from(0));
 
     let mut reviewed_beer = beer::ActiveModel::from(reviewed_beer);
