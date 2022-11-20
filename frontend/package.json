@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
-    "prod": "cd dist && wasm-server",
+    "prod": "cd dist && wasm-server -p 8000",
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development"
   },

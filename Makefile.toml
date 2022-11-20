@@ -1,30 +1,35 @@
 [env]
 CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+FRONTEND_PATH="./frontend"
+BACKEND_PATH="./backend"
 
-[tasks.start]
-command = "cargo"
-args = ["test"]
-install_crate = false
+[tasks.start_front_dev]
+workspace = false
+command = "pnpm"
+args = ["run", "--dir", "${FRONTEND_PATH}", "dev"]
 
 [tasks.start_front]
 workspace = false
-command = "pnpm"
-args = ["run", "--dir", "./frontend", "dev"]
+run_task = [
+    { name = ["install_front", "build_front", "start_front_prod"], condition = { profile = "release" } },
+    { name = ["intall_front", "start_front_dev"] },
+]
 
 [tasks.build_front]
 workspace = false
 command = "pnpm"
-args = ["run", "--dir", "./frontend", "build"]
+args = ["run", "--dir", "${FRONTEND_PATH}", "build"]
 
 [tasks.start_front_prod]
+install_crate = { crate_name = "simple-http-server", test_arg = "--help" }
 workspace = false
-command = "pnpm"
-args = ["run", "--dir", "./frontend", "prod"]
+command = "simple-http-server"
+args = ["${FRONTEND_PATH}/dist", "-i", "-p", "8000", "--nocache", "--try-file", "${FRONTEND_PATH}/dist/index.html"]
 
 [tasks.install_front]
 workspace = false
 command = "pnpm"
-args = ["install", "--dir", "./frontend"]
+args = ["install", "--dir", "${FRONTEND_PATH}"]
 
 [tasks.install_start_front]
 workspace = false
@@ -37,17 +42,13 @@ run_task = { name = ["install_front", "build_front", "start_front_prod"] }
 [tasks.start_back]
 workspace = false
 command = "cargo"
-args = ["run", "--manifest-path", "./backend/Cargo.toml"]
+args = ["run", "--manifest-path", "${BACKEND_PATH}/Cargo.toml"]
 
 [tasks.start_back_prod]
 workspace = false
 command = "cargo"
-args = ["run", "--manifest-path", "./backend/Cargo.toml", "--release"]
+args = ["run", "--manifest-path", "${BACKEND_PATH}/Cargo.toml", "--release"]
 
 [tasks.start_all]
 workspace = false
-run_task = { name = ["install_start_front", "start_back"], parallel = true }
-
-[tasks.start_all_prod]
-workspace = false
-run_task = { name = ["install_build_start_front_prod", "start_back_prod"], parallel = true }
+run_task = { name = ["start_front", "start_back"], parallel = true }
